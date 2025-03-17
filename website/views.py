@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, BookForm
+from .forms import SignUpForm, BookForm, AddRecordForm
 from .models import Record, Book
 
 def home(request):
@@ -120,4 +120,15 @@ def delete_book(request, pk, book_id):
     return redirect('record', pk=pk)
 
 def add_record(request):
-     return render(request, 'add_record.html', {})
+    form=AddRecordForm(request.POST or None)
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            if form.is_valid():
+                add_record=form.save()
+                messages.success(request,"Record Has Been Added!")
+                return redirect('home')    
+        return render(request, 'add_record.html', {'form':form})
+    else:
+        messages.error(request, "You must be logged in!")
+        return redirect('home')
+
