@@ -87,33 +87,6 @@ def delete_record(request, pk):
         messages.error(request, "You must be logged in to view this page!")
         return redirect('home')
 
-# def add_book(request, pk):
-#     if request.user.is_authenticated:
-#         customer_record = get_object_or_404(Record, id=pk)
-#         books = customer_record.book_set.all() 
-
-#         if request.method == "POST":
-#             title = request.POST.get("title")
-#             author = request.POST.get("author")
-#             date_borrowed = request.POST.get("date_borrowed")
-#             date_returned = request.POST.get("date_returned")
-
-#             if title and author and date_borrowed:
-#                 Book.objects.create(
-#                     record=customer_record,  
-#                     title=title,
-#                     author=author,
-#                     date_borrowed=date_borrowed,
-#                     date_returned=date_returned
-#                 )
-#                 messages.success(request, "Book added successfully!")
-#                 return redirect('customer_record', pk=customer_record.id)  # Refresh page
-
-#         return render(request, 'record.html', {'customer_record': customer_record, 'books': books})
-
-#     else:
-#         messages.error(request, "You must be logged in to view this page!")
-#         return redirect('home')
 def add_book(request, pk):
     if request.user.is_authenticated:
         record = get_object_or_404(Record, id=pk)
@@ -145,3 +118,6 @@ def delete_book(request, pk, book_id):
     book = get_object_or_404(Book, id=book_id)
     book.delete()
     return redirect('record', pk=pk)
+
+def add_record(request):
+     return render(request, 'add_record.html', {})
