@@ -1,0 +1,27 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+
+<h1>Customer Record: {{ customer_record.first_name }} {{ customer_record.last_name }}</h1>
+
+<h2>Books Read:</h2>
+<ul>
+    {% for book in books %}
+        <li>{{ book.title }} by {{ book.author }} (Read on: {{ book.read_date }})</li>
+    {% empty %}
+        <p>No books recorded yet.</p>
+    {% endfor %}
+</ul>
+
+<h3>Add a Book:</h3>
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Book Title" required>
+    <input type="text" name="author" placeholder="Author" required>
+    <input type="date" name="read_date" required>
+    <button type="submit">Add Book</button>
+</form>
+
+
+
+{% endblock %}

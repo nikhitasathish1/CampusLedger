@@ -13,3 +13,12 @@ class Record(models.Model):
     def __str__(self):
         return(f"{self.first_name}{self.last_name}")
     
+class Book(models.Model):
+    record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name="books")
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    read_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.title} by {self.author}"
+    
