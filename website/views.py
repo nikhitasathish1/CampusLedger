@@ -140,3 +140,8 @@ def add_book(request, pk):
     else:
         messages.error(request, "You must be logged in to add a book!")
         return redirect('home')
+    
+def delete_book(request, pk, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    book.delete()
+    return redirect('record', pk=pk)
