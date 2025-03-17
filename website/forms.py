@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from .models import Book
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label='',widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Email Address'}))
@@ -44,7 +45,16 @@ class SignUpForm(UserCreationForm):
             'Enter the same password as before, for verification.'
             '</span>'
         )
-
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'date_borrowed', 'date_returned']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Book Title'}),
+            'author': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Author'}),
+            'date_borrowed': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'date_returned': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }
         # self.fields['username'].widget.attrs['class'] = 'form-control'
         # self.fields['username'].widget.attrs['placeholder'] = 'User Name'
         # self.fields['username'].label = ''

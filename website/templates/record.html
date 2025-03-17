@@ -1,27 +1,111 @@
-{% extends 'base.html' %} 
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            text-align: center;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
 
+<div class="container">
+    <h1>Customer Record: {{ customer_record.name }}</h1>
+    <p><strong>First Name:</strong> {{ customer_record.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ customer_record.last_name }}</p>
+    <p><strong>Email:</strong> {{ customer_record.email }}</p>
+    <p><strong>Phone Number:</strong> {{ customer_record.phone_number }}</p>
+    <p><strong>City:</strong> {{ customer_record.city }}</p>
+    <p><strong>State:</strong> {{ customer_record.state }}</p>
+    <p><strong>Zipcode:</strong> {{ customer_record.zipcode }}</p>
 
-<h1>Customer Record: {{ customer_record.first_name }} {{ customer_record.last_name }}</h1>
+    <h2>Books Borrowed</h2>
+    {% if books %}
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Date Borrowed</th>
+                <th>Date Returned</th>
+            </tr>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.date_borrowed }}</td>
+                    <td>{{ book.date_returned|default:"Not returned yet" }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No books borrowed yet.</p>
+    {% endif %}
 
-<h2>Books Read:</h2>
-<ul>
-    {% for book in books %}
-        <li>{{ book.title }} by {{ book.author }} (Read on: {{ book.read_date }})</li>
-    {% empty %}
-        <p>No books recorded yet.</p>
-    {% endfor %}
-</ul>
+    <div class="buttons">
+        <a href="{% url 'add_book' customer_record.id %}" class="btn btn-primary">Add a Book</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+        <a href="{% url 'delete_record' customer_record.id %}" class="btn btn-danger">Delete Record</a>
+    </div>
+</div>
 
-<h3>Add a Book:</h3>
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" name="title" placeholder="Book Title" required>
-    <input type="text" name="author" placeholder="Author" required>
-    <input type="date" name="read_date" required>
-    <button type="submit">Add Book</button>
-</form>
-
-
-
-{% endblock %}
+</body>
+</html>

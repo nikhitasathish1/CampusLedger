@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, BookForm
 from .models import Record, Book
 
 def home(request):
@@ -46,14 +46,14 @@ def register_user(request):
         return render(request, 'register.html',{'form':form})
     return render(request, 'register.html',{'form':form})
 
-def customer_record(request,pk):
-    if request.user.is_authenticated:
-        #look up record
-        customer_record=Record.objects.get(id=pk)
-        return render(request, 'record.html',{'customer_record':customer_record})
-    else:
-        messages.success(request, "Must be logged in to view the page !!")
-        return redirect('home')
+# def customer_record(request,pk):
+#     if request.user.is_authenticated:
+#         #look up record
+#         customer_record=Record.objects.get(id=pk)
+#         return render(request, 'record.html',{'customer_record':customer_record})
+#     else:
+#         messages.success(request, "Must be logged in to view the page !!")
+#         return redirect('home')
     
 def customer_record(request, pk):
     if request.user.is_authenticated:
@@ -75,4 +75,68 @@ def customer_record(request, pk):
 
     else:
         messages.error(request, "You must be logged in to view this page!")
+        return redirect('home')
+    
+def delete_record(request, pk):
+    if request.user.is_authenticated:
+        delete_it=Record.objects.get(id=pk)
+        delete_it.delete()
+        messages.success(request,"Record Has Been Deleted!")
+        return redirect('home')
+    else:
+        messages.error(request, "You must be logged in to view this page!")
+        return redirect('home')
+
+# def add_book(request, pk):
+#     if request.user.is_authenticated:
+#         customer_record = get_object_or_404(Record, id=pk)
+#         books = customer_record.book_set.all() 
+
+#         if request.method == "POST":
+#             title = request.POST.get("title")
+#             author = request.POST.get("author")
+#             date_borrowed = request.POST.get("date_borrowed")
+#             date_returned = request.POST.get("date_returned")
+
+#             if title and author and date_borrowed:
+#                 Book.objects.create(
+#                     record=customer_record,  
+#                     title=title,
+#                     author=author,
+#                     date_borrowed=date_borrowed,
+#                     date_returned=date_returned
+#                 )
+#                 messages.success(request, "Book added successfully!")
+#                 return redirect('customer_record', pk=customer_record.id)  # Refresh page
+
+#         return render(request, 'record.html', {'customer_record': customer_record, 'books': books})
+
+#     else:
+#         messages.error(request, "You must be logged in to view this page!")
+#         return redirect('home')
+def add_book(request, pk):
+    if request.user.is_authenticated:
+        record = get_object_or_404(Record, id=pk)
+
+        if request.method == "POST":
+            title = request.POST.get("title")
+            author = request.POST.get("author")
+            date_borrowed = request.POST.get("date_borrowed")
+            date_returned = request.POST.get("date_returned")
+
+            if title and author and date_borrowed:
+                Book.objects.create(
+                    record=record,  
+                    title=title,
+                    author=author,
+                    date_borrowed=date_borrowed,
+                    date_returned=date_returned
+                )
+                messages.success(request, "Book added successfully!")
+                return redirect('record', pk=record.id)  # Redirect back to the record page
+
+        return render(request, 'add_book.html', {'record': record})
+
+    else:
+        messages.error(request, "You must be logged in to add a book!")
         return redirect('home')

@@ -14,11 +14,12 @@ class Record(models.Model):
         return(f"{self.first_name}{self.last_name}")
     
 class Book(models.Model):
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    date_borrowed = models.DateField()
+    date_returned = models.DateField(null=True, blank=True)
+    
     record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name="books")
-    title = models.CharField(max_length=100)
-    author = models.CharField(max_length=100)
-    read_date = models.DateField()
-
-    def __str__(self):
+def __str__(self):
         return f"{self.title} by {self.author}"
     
