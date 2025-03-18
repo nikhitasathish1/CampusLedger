@@ -4,7 +4,7 @@ CampusLedger is a student record and book management system designed for faculty
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Features
+**Features**
 - User Authentication – Faculty can register, log in, and manage student records securely.
 - Student Records Management – Add, view, update, and delete student details.
 - Book Tracking – Record books borrowed by students with borrow and return dates.
@@ -13,15 +13,18 @@ Features
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Tech Stack
-- 🔹 Backend: Django (Python)
+**Tech Stack**
+- 🔹 Backend: Django (Python) (Dockerized)
 - 🔹 Frontend: HTML, CSS, Bootstrap
-- 🔹 Database: MySQL
+- 🔹 Database: MySQL (Running in a Docker container)
 - 🔹 Authentication: Django's built-in user authentication
+- 🔹 Containerization: Docker & Docker Compose
+
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Installation & Setup
+**Installation & Setup**
 
 Prerequisites:
 - Ensure you have the following installed on your system:
