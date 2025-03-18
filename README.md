@@ -22,20 +22,45 @@ Tech Stack
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Installation & Setup
-- Clone the Repository
-  ```
-   git clone https://github.com/nikhitasathish1/CampusLedger
-   cd campusledger
-  ```
-- Set Up a Virtual Environment
-- Install Dependencies
-  ```
-     pip install -r requirements.txt
-  ```
-- Apply Migrations & Run Server
-  ```
-   python3 manage.py migrate
-   python3 manage.py runserver
-  ```
 
+Prerequisites:
+- Ensure you have the following installed on your system:
+  - Docker
+  - Docker Compose
 
+Clone the Repository:
+```
+git clone https://github.com/nikhitasathish1/CampusLedger.git
+cd CampusLedger
+```
+
+Build and Start the Containers:
+```
+docker-compose up --build
+```
+
+Running Migrations:
+- Once the containers are up, run migrations:
+```
+docker-compose exec web python manage.py migrate
+```
+
+Creating a Superuser:
+```
+docker-compose exec web python manage.py createsuperuser
+```
+
+Hosting it:
+```
+docker-compose exec web python manage.py runserver 0.0.0.0:8080
+```
+
+Login in:
+```
+http://localhost:8000
+```
+
+Stopping the Application:
+```
+docker-compose down
+```
