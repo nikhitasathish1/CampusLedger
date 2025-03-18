@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:9.2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Spotify01  # Set a strong root password
+      MYSQL_DATABASE: project_db  # Optional: Auto-create a database
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  web:
+    build: .
+    container_name: campusledger_app
+    command: gunicorn --bind 0.0.0.0:8000 dcrm.wsgi:application
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_NAME=project_db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=Spotify01
+      - DATABASE_HOST=db
+      - DATABASE_PORT=3306
+      - DOCKERIZED=True
+
+volumes:
+  db_data:

@@ -152,3 +152,7 @@ websocket-client==1.8.0
 websockets==13.1
 widgetsnbextension==4.0.13
 yarl==1.18.3
+Django>=5.1
+gunicorn
+mysqlclient
+python-dotenv
