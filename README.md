@@ -23,13 +23,19 @@ Tech Stack
 
 Installation & Setup
 - Clone the Repository
+  ```
   - git clone https://github.com/nikhitasathish1/CampusLedger
   - cd campusledger
+  ```
 - Set Up a Virtual Environment
 - Install Dependencies
+  ```
     - pip install -r requirements.txt
+  ```
 - Apply Migrations & Run Server
+  ```
   - python3 manage.py migrate
   - python3 manage.py runserver
+  ```
 
 
